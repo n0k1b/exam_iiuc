@@ -145,7 +145,7 @@
 @endsection
 
 @section('scripts')
-
+<script src="{{ asset('js/app.js') }}"></script>
 <script>
    $( document ).ready(function() {
        $('.sessionmodal').addClass("active");

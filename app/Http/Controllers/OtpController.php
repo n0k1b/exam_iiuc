@@ -21,8 +21,8 @@ class OtpController extends Controller
      //   file_put_contents('test.txt',$request->otp);
         if($otp == $request->otp)
         {
-            if(Auth::user()->role == "S")
-            return redirect()->route('home');
+            if(Auth::user()->role == "s")
+            return redirect()->to('/');
             if(Auth::user()->role == "T")
             return redirect()->route('teacher');
         }
