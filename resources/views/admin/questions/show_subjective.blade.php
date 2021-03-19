@@ -12,7 +12,7 @@
 @section('content')
   <div class="margin-bottom">
     <button type="button" class="btn btn-wave" data-toggle="modal" data-target="#createModal">Add Question</button>
-    <button type="button" class="btn btn-wave" data-toggle="modal" data-target="#importQuestions">Import Questions</button>
+    {{-- <button type="button" class="btn btn-wave" data-toggle="modal" data-target="#importQuestions">Import Questions</button> --}}
   </div>
   <!-- Create Modal -->
   <div id="createModal" class="modal fade" role="dialog">

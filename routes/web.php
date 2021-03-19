@@ -178,7 +178,7 @@ Route::get('/student/profile', function(){
 Route::get('/student/my_reports', 'MyReportsController@index')->name('my_report');
 Route::get('/student/my_reports/{my_reports}', 'MyReportsController@show')->name('my_report_show');
 
-
+//Route::get('/student/my_reports/{my_reports}', 'MyReportsController@show')->name('my_report_show');
 
 
 Route::get('start_quiz/{id}', function($id){
