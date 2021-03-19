@@ -25,49 +25,19 @@
         {!! Form::open(['method' => 'POST', 'action' => 'QuestionsController@store', 'files' => true]) !!}
           <div class="modal-body">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-6">
                 {!! Form::hidden('topic_id', $topic->id) !!}
-                {!! Form::hidden('question_type', 'objective') !!}
+                {!! Form::hidden('question_type', 'subjective') !!}
                 <div class="form-group{{ $errors->has('question') ? ' has-error' : '' }}">                  
                   {!! Form::label('question', 'Question') !!}
                   <span class="required">*</span>
                   {!! Form::textarea('question', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Question', 'rows'=>'8', 'required' => 'required']) !!}
                   <small class="text-danger">{{ $errors->first('question') }}</small>
                 </div>
-                <div class="form-group{{ $errors->has('answer') ? ' has-error' : '' }}">
-                    {!! Form::label('answer', 'Correct Answer') !!}
-                    <span class="required">*</span>
-                    {!! Form::select('answer', array('A'=>'A', 'B'=>'B', 'C'=>'C', 'D'=>'D'),null, ['class' => 'form-control select2', 'required' => 'required', 'placeholder'=>'']) !!}
-                    <small class="text-danger">{{ $errors->first('answer') }}</small>
-                </div>
+               
               </div>
-              <div class="col-md-4">
-                <div class="form-group{{ $errors->has('a') ? ' has-error' : '' }}">
-                  {!! Form::label('a', 'A - Option') !!}
-                  <span class="required">*</span>
-                  {!! Form::text('a', null, ['class' => 'form-control', 'placeholder' => 'Please Enter A Option', 'required' => 'required']) !!}
-                  <small class="text-danger">{{ $errors->first('a') }}</small>
-                </div>
-                <div class="form-group{{ $errors->has('b') ? ' has-error' : '' }}">
-                  {!! Form::label('b', 'B - Option') !!}
-                  <span class="required">*</span>
-                  {!! Form::text('b', null, ['class' => 'form-control', 'placeholder' => 'Please Enter B Option', 'required' => 'required']) !!}
-                  <small class="text-danger">{{ $errors->first('b') }}</small>
-                </div>
-                <div class="form-group{{ $errors->has('c') ? ' has-error' : '' }}">
-                  {!! Form::label('c', 'C - Option') !!}
-                  <span class="required">*</span>
-                  {!! Form::text('c', null, ['class' => 'form-control', 'placeholder' => 'Please Enter C Option', 'required' => 'required']) !!}
-                  <small class="text-danger">{{ $errors->first('c') }}</small>
-                </div>
-                <div class="form-group{{ $errors->has('d') ? ' has-error' : '' }}">
-                  {!! Form::label('d', 'D - Option') !!}
-                  <span class="required">*</span>
-                  {!! Form::text('d', null, ['class' => 'form-control', 'placeholder' => 'Please Enter D Option', 'required' => 'required']) !!}
-                  <small class="text-danger">{{ $errors->first('d') }}</small>
-                </div>
-              </div>
-              <div class="col-md-4">
+             
+              <div class="col-md-6">
                 {{-- <div class="form-group{{ $errors->has('code_snippet') ? ' has-error' : '' }}">
                     {!! Form::label('code_snippet', 'Code Snippets') !!}
                     {!! Form::textarea('code_snippet', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Code Snippets', 'rows' => '5']) !!}
@@ -153,7 +123,7 @@
             <th>#</th>
             <th>Questions</th>
             
-            <th>Correct Answer</th>
+         
          
             <th>Answer Explanation</th>
             <th>Image</th>
@@ -173,7 +143,7 @@
                 </td>
                 <td>{{$question->question}}</td>
                
-                <td>{{$question->$answer}}</td>
+            
                
                 <td>
                   {{$question->answer_exp}}

@@ -150,8 +150,8 @@ $setting = App\Setting::first();
       
         @elseif ($auth->role == 'T')
         <li class="{{$dash}}"><a href="{{url('/teacher')}}" title="Dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li class="{{$users}}"><a href="{{url('/teacher/users')}}" title="Students"><i class="fa fa-users"></i> <span>Students</span></a></li>
-        <li class="{{$quiz}}"><a href="{{url('teacher/topics')}}" title="Quiz"><i class="fa fa-gears"></i> <span>Quiz</span></a></li>          
+        {{-- <li class="{{$users}}"><a href="{{url('/teacher/users')}}" title="Students"><i class="fa fa-users"></i> <span>Students</span></a></li> --}}
+        <li class="{{$quiz}}"><a href="{{url('teacher/topics')}}" title="Quiz"><i class="fa fa-gears"></i> <span>Create Exam</span></a></li>          
         <li class="{{$questions}}"><a href="{{url('teacher/questions')}}" title="Questions"><i class="fa fa-question-circle-o"></i> <span>Questions</span></a></li>          
         <li class="{{$all_re}}"><a href="{{url('/teacher/all_reports')}}" title="Student Report"><i class="fa fa-file-text-o"></i> <span>Student Report</span></a></li>
         <li class="{{$top_re}}"><a href="{{url('/teacher/top_report')}}" title="Top Student Report"><i class="fa fa-user"></i> <span>Top Student Report</span></a></li>
@@ -163,7 +163,7 @@ $setting = App\Setting::first();
 
        
 
-        <li class="{{ Nav::isRoute('admin.payment') }}"><a href="{{route('admin.payment')}} " title="Payment History"><i class="fa fa-money"></i> <span>Payment History</span></a></li>
+        {{-- <li class="{{ Nav::isRoute('admin.payment') }}"><a href="{{route('admin.payment')}} " title="Payment History"><i class="fa fa-money"></i> <span>Payment History</span></a></li> --}}
         @elseif ($auth->role == 'S')
           <li><a href="{{url('/student/my_reports')}}" title="My Reports"><i class="fa fa-file-text-o"></i> <span>My Reports</span></a></li>
 

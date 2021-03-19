@@ -30,8 +30,8 @@ class UsersController extends Controller
       $topic_avail = Topic::where('unique_id',$unique_code)->first();
       if($topic_avail)
       {
-        $topics = Topic::all();
-        $questions = Question::all();
+        $topics = Topic::where('unique_id',$unique_code)->get();
+        $questions = Question::get();
         return view('main', compact('topics', 'questions'));
       }
       else

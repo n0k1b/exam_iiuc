@@ -67,7 +67,7 @@
           </div>
        @else
       <div id="question_block" class="question-block">
-        <question :topic_id="{{$topic->id}}" ></question>
+      
       </div>
       @endif
       @if(empty($que))
@@ -82,8 +82,9 @@
 
 @section('scripts')
   <!-- jQuery 3 -->
-  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('js/app2.js') }}"></script>
   <script src="{{asset('js/jquery.min.js')}}"></script>
+
   <!-- Bootstrap 3.3.7 -->
   <script src="{{asset('js/bootstrap.min.js')}}"></script>
   <script src="{{asset('js/jquery.cookie.js')}}"></script>

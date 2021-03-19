@@ -32,7 +32,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/otp';
 
     /**
      * Create a new controller instance.
@@ -54,13 +54,13 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            // 'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ],
 
        [     'name.required' => 'Name cannot be empty',
-                   'email.required' => 'Email field is required',
-                   'email.unique' => 'Email has been already taken !',
+                //    'email.required' => 'Email field is required',
+                //    'email.unique' => 'Email has been already taken !',
                    'password.required' => 'Password cannot be empty',
                    'password.min' => 'Min Password length must be 6',
                    'password.confirmed' => "Password doesn't match",]
@@ -75,14 +75,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $otp  = mt_rand(1000,9999);
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'role' => 'S',
+            'role' => $data['role'],
+            'confirmation_code'=>$otp
         ]);
+        
 
         Mail::to($data['email'])->send(new WelcomeUser($user));
         return $user;
+        //return view('auth.otp');
     }
+    
+    
 }

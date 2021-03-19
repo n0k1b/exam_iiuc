@@ -16,10 +16,12 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('otp','OtpController@otp')->name('otp');
+Route::post('submit_otp','OtpController@submit_otp')->name('submit_otp');
 Route::redirect('/', 'home');
 
 Auth::routes();
+
 
 /*google login route*/
 // Route::get('login/o_auth/facebook  ', 'Auth\LoginController@redirectToProvider');
@@ -42,10 +44,41 @@ Route::get('/faqs',function(){
 })->name('faq.get');
 
 Route::get('/home', function(){
+  
+  if (Auth::check()) {
+  if(Auth::user()->role == 'T' ||Auth::user()->role == 'A')
+  {
+    
+    $user = User::where('role', '!=', 'T')->count();
+    $question = Question::count();
+    $quiz = Topic::where('user_id',Auth::id())->count();
+    $topic = Topic::where('user_id',Auth::id())->get();
+    $question_count = 0;
+    foreach($topic as $data)
+    {
+      $question_count+= Question::where('topic_id',$data->id)->count();
+    }
+    $question = $question_count;
+
+    $user_latest = User::where('id', '!=', Auth::id())->orderBy('created_at', 'desc')->get();
+
+   return view('teacher.dashboard', compact('user', 'question', 'quiz', 'user_latest'));
+  }
+ else
+  {
   $topics = Topic::all();
   $questions = Question::all();
   return view('home', compact('topics', 'questions'));
-});
+  }
+  }
+  else
+  {
+   return view('home'); 
+  }
+  
+  
+  
+})->name('home');
 
 Route::get('/redirect', function () {
     $query = http_build_query([
@@ -81,9 +114,11 @@ Route::group(['middleware'=> 'isadmin'], function(){
   Route::resource('/admin/top_report', 'TopReportController');
   Route::resource('/admin/topics', 'TopicController');
   Route::resource('/admin/questions', 'QuestionsController');
+
   Route::post('/admin/questions/import_questions', 'QuestionsController@importExcelToDB')->name('import_questions');
   Route::resource('/admin/answers', 'AnswersController');
   Route::resource('/admin/settings', 'SettingController');
+ 
 
 
   Route::post('/admin/users/destroy', 'DestroyAllController@AllUsersDestroy');
@@ -92,21 +127,28 @@ Route::group(['middleware'=> 'isadmin'], function(){
 });
 
 
-
   Route::delete('delete/sheet/quiz/{id}','TopicController@deleteperquizsheet')->name('del.per.quiz.sheet');
 
   Route::get('/teacher', function(){
 
     $user = User::where('role', '!=', 'T')->count();
     $question = Question::count();
-    $quiz = Topic::count();
+    $quiz = Topic::where('user_id',Auth::id())->count();
+    $topic = Topic::where('user_id',Auth::id())->get();
+    $question_count = 0;
+    foreach($topic as $data)
+    {
+      $question_count+= Question::where('topic_id',$data->id)->count();
+    }
+    $question = $question_count;
+
     $user_latest = User::where('id', '!=', Auth::id())->orderBy('created_at', 'desc')->get();
 
    return view('teacher.dashboard', compact('user', 'question', 'quiz', 'user_latest'));
     //remove the answer line comment
     // return view('admin.dashboard', compact('user', 'question', 'answer', 'quiz', 'user_latest'));
 
-  });
+  })->name('teacher');
 
   Route::delete('reset/response/{topicid}/{userid}','AllReportController@delete');
 
@@ -118,7 +160,7 @@ Route::group(['middleware'=> 'isadmin'], function(){
   Route::resource('/teacher/answers', 'AnswersController');
   Route::resource('/teacher/settings', 'SettingController');
 
-
+  Route::get('teacher/subjective_question_show/{id}','QuestionsController@subjective_question_show')->name("subjective_question_show");
   Route::post('/teacher/users/destroy', 'DestroyAllController@AllUsersDestroy');
   Route::post('/teacher/answers/destroy', 'DestroyAllController@AllAnswersDestroy');
 
@@ -141,8 +183,19 @@ Route::get('/student/my_reports/{my_reports}', 'MyReportsController@show')->name
 
 Route::get('start_quiz/{id}', function($id){
   $topic = Topic::findOrFail($id);
-  $answers = Answer::where('topic_id','=',$topic->topic_id)->first();
-  return view('main_quiz', compact('topic','answers'));
+  if($topic->exam_type == 'objective')
+  {
+    $answers = Answer::where('topic_id','=',$topic->topic_id)->first();
+  
+    return view('main_quiz', compact('topic','answers'));
+  }
+  else
+  {
+    $answers = Answer::where('topic_id','=',$topic->topic_id)->first();
+  
+    return view('main_quiz_subjective', compact('topic','answers'));
+  }
+ 
 })->name('start_quiz');
 
 

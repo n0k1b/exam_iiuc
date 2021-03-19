@@ -31,6 +31,6 @@ class WelcomeUser extends Mailable
      */
     public function build()
     {
-        return $this->view('email.welcome')->subject('Welcome to QuickQuiz');
+        return $this->view('email.welcome')->subject('Welcome to E-EXAM');
     }
 }

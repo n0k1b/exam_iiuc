@@ -5,7 +5,7 @@
 	<body>
 		{{ $user['email'] }}
 		<br>
-		<p>Your Register email with us is : {{ $user['email'] }}</p>
-		<p>{{ config('app.name') }}</p>
+		<p>Your e-exam otp is : {{ $user['confirmation_code'] }}</p>
+		
 	</body>
 </html>

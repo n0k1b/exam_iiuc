@@ -1,5 +1,5 @@
 @extends('layouts.admin', [
-  'page_header' => 'Quiz',
+  'page_header' => 'Exam List',
   'dash' => '',
   'quiz' => 'active',
   'users' => '',
@@ -11,7 +11,7 @@
 
 @section('content')
   <div class="margin-bottom">
-    <button type="button" class="btn btn-wave" data-toggle="modal" data-target="#createModal">Add Quiz</button>
+    <button type="button" class="btn btn-wave" data-toggle="modal" data-target="#createModal">Add Exam</button>
   </div>
   <!-- Create Modal -->
   <div id="createModal" class="modal fade" role="dialog">
@@ -19,16 +19,16 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Add Quiz</h4>
+          <h4 class="modal-title">Add Exam</h4>
         </div>
         {!! Form::open(['method' => 'POST', 'action' => 'TopicController@store']) !!}
           <div class="modal-body">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
-                  {!! Form::label('title', 'Quiz Title') !!}
+                  {!! Form::label('title', 'Exam Title') !!}
                   <span class="required">*</span>
-                  {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Quiz Title', 'required' => 'required']) !!}
+                  {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Exam Title', 'required' => 'required']) !!}
                   <small class="text-danger">{{ $errors->first('title') }}</small>
                 </div>
                 <div class="form-group{{ $errors->has('per_q_mark') ? ' has-error' : '' }}">
@@ -38,10 +38,17 @@
                   <small class="text-danger">{{ $errors->first('per_q_mark') }}</small>
                 </div>
                 <div class="form-group{{ $errors->has('timer') ? ' has-error' : '' }}">
-                  {!! Form::label('timer', 'Quiz Time (in minutes)') !!}
-                  {!! Form::number('timer', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Quiz Total Time (In Minutes)']) !!}
+                  {!! Form::label('timer', 'Exam Time (in minutes)') !!}
+                  {!! Form::number('timer', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Exam Total Time (In Minutes)']) !!}
                   <small class="text-danger">{{ $errors->first('timer') }}</small>
                 </div>
+
+                <div class="form-group{{ $errors->has('exam_type') ? ' has-error' : '' }}">
+                  {!! Form::label('exam_type', 'Exam Type') !!}
+                  <span class="required">*</span>
+                  {!! Form::select('exam_type', array('subjective'=>'Subjective', 'objective'=>'Objective'),null, ['class' => 'form-control select2', 'required' => 'required', 'placeholder'=>'']) !!}
+                  <small class="text-danger">{{ $errors->first('exam_type') }}</small>
+              </div>
 
                 {{-- <label for="married_status">Quiz Price:</label> --}}
                 {{-- <select name="married_status" id="ms" class="form-control">
@@ -78,7 +85,7 @@
               <div class="col-md-6">
                 <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                   {!! Form::label('description', 'Description') !!}
-                  {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Quiz Description', 'rows' => '8']) !!}
+                  {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Exam Description', 'rows' => '8']) !!}
                   <small class="text-danger">{{ $errors->first('description') }}</small>
                 </div>
               </div>
@@ -100,11 +107,12 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Quiz Title</th>
+            <th>Exam Title</th>
             <th>Description</th>
             <th>Per Question Mark</th>
             <th>Time</th>
             <th>Unique Code</th>
+            <th>Exam Type</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -122,6 +130,7 @@
                 <td>{{$topic->per_q_mark}}</td>
                 <td>{{$topic->timer}} mins</td>
                 <td>{{$topic->unique_id}}</td>
+                <td>{{$topic->exam_type}}</td>
                 <td>
                   <!-- Edit Button -->
                   <a type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#{{$topic->id}}EditModal"><i class="fa fa-edit"></i> Edit</a>
@@ -156,7 +165,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">Edit Quiz</h4>
+                      <h4 class="modal-title">Edit Exam</h4>
                     </div>
                     {!! Form::model($topic, ['method' => 'PATCH', 'action' => ['TopicController@update', $topic->id]]) !!}
                       <div class="modal-body">
@@ -165,7 +174,7 @@
                             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                               {!! Form::label('title', 'Topic Title') !!}
                               <span class="required">*</span>
-                              {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Quiz Title', 'required' => 'required']) !!}
+                              {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Exam Title', 'required' => 'required']) !!}
                               <small class="text-danger">{{ $errors->first('title') }}</small>
                             </div>
                             <div class="form-group{{ $errors->has('per_q_mark') ? ' has-error' : '' }}">
@@ -175,8 +184,8 @@
                               <small class="text-danger">{{ $errors->first('per_q_mark') }}</small>
                             </div>
                             <div class="form-group{{ $errors->has('timer') ? ' has-error' : '' }}">
-                              {!! Form::label('timer', 'Quiz Time (in minutes)') !!}
-                              {!! Form::number('timer', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Quiz Total Time (In Minutes)']) !!}
+                              {!! Form::label('timer', 'Exam Time (in minutes)') !!}
+                              {!! Form::number('timer', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Exam Total Time (In Minutes)']) !!}
                               <small class="text-danger">{{ $errors->first('timer') }}</small>
                             </div>
 
@@ -185,7 +194,7 @@
                            <input {{ $topic->show_ans ==1 ? "checked" : "" }} type="checkbox" class="toggle-input" name="show_ans" id="toggle{{ $topic->id }}">
                            <label for="toggle{{ $topic->id }}"></label>
                           
-                           <label for="">Quiz Price:</label>
+                           <label for="">Exam Price:</label>
                            <input onchange="showprice('{{ $topic->id }}')" {{ $topic->amount !=NULL  ? "checked" : ""}} type="checkbox" class="toggle-input " name="pricechk" id="toggle2{{ $topic->id }}">
                            <label for="toggle2{{ $topic->id }}"></label>
                         
@@ -193,7 +202,7 @@
                            
                           <label for="doba">Choose Quiz Price: </label>
                           <div class="form-group{{ $errors->has('amount') ? ' has-error' : '' }}">
-                           <input value="{{ $topic->amount }}" name="amount" id="doa" type="text" class="form-control"  placeholder="Please Enter Quiz Price">
+                           <input value="{{ $topic->amount }}" name="amount" id="doa" type="text" class="form-control"  placeholder="Please Enter Exam Price">
                            <small class="text-danger">{{ $errors->first('amount') }}</small>
                           </div>
                         </div>
@@ -204,7 +213,7 @@
                           <div class="col-md-6">
                             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                               {!! Form::label('description', 'Description') !!}
-                              {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Quiz Description']) !!}
+                              {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Please Enter Exam Description']) !!}
                               <small class="text-danger">{{ $errors->first('description') }}</small>
                             </div>
                           </div>

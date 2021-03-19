@@ -9,6 +9,7 @@ use App\Topic;
 use App\Answer;
 use App\Question;
 
+
 class AllReportController extends Controller
 {
     /**
@@ -18,7 +19,7 @@ class AllReportController extends Controller
      */
     public function index()
     {
-        $topics = Topic::all();
+        $topics = Topic::where('user_id',Auth::id())->get();
         $questions = Question::all();
         return view('admin.all_reports.index', compact('topics', 'questions'));
     }

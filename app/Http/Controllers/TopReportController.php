@@ -18,7 +18,7 @@ class TopReportController extends Controller
      */
      public function index()
      {
-         $topics = Topic::all();
+         $topics = Topic::where('user_id',Auth::id())->get();
          $questions = Question::all();
          return view('admin.top_reports.index', compact('questions', 'topics'));
      }

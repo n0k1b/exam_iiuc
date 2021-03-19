@@ -41,6 +41,11 @@
           {!! Form::password('password_confirmation', ['class' => 'form-control', 'required' => 'required', 'placeholder'=>'Confirm Password']) !!}
           <small class="text-danger">{{ $errors->first('password_confirmation') }}</small>
         </div>
+        <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
+          {!! Form::label('password_confirmation', 'User role') !!}
+          {!! Form::select('role',[ 's' => 'Student','T'=>'Teacher' ], ['class' => 'form-control', 'required' => 'required', 'placeholder'=>'User Role']) !!}
+          <small class="text-danger">{{ $errors->first('user_role') }}</small>
+        </div>
         <div class="mr-t-20">
           <button type="submit" class="btn btn-wave">Create Account</button>
           <a href="{{url('/login')}}" class="text-center btn-block" title="Already Have Account">Already Have Account ?</a>

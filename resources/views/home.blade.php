@@ -133,7 +133,7 @@
                 <h1 class="main-block-heading text-center">{{$setting->welcome_txt}}</h1>
               @endif
                 <blockquote>
-                  Please <a href="{{ route('login') }}">Login</a> To Start Quiz >>>
+                  Please <a href="{{ route('login') }}">Login</a> To Start Exam >>>
                 </blockquote>
             </div>
         </div>

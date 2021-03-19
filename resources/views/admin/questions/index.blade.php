@@ -53,7 +53,12 @@
                 </ul>
               </div>
             </div>
+            @if($topic->exam_type =='objective')
             <a href="{{route('questions.show', $topic->id)}}" class="btn btn-wave">Add Questions</a>
+            @else
+            <a href="{{route('subjective_question_show', $topic->id)}}" class="btn btn-wave">Add Questions</a>
+            @endif
+            
             <a data-target="#deleteans{{ $topic->id }}" data-toggle="modal" class="btn btn-danger">Delete Answer Sheet</a>
           </div>
 

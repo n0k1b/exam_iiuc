@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Topic;
 use App\Question;
+use Auth;
 
 class QuestionsController extends Controller
 {
@@ -15,7 +16,7 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        $topics = Topic::all();
+        $topics = Topic::where('user_id',Auth::id())->get();
         $questions = Question::all();
         return view('admin.questions.index', compact('questions', 'topics'));
     }
@@ -67,16 +68,16 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-          'topic_id' => 'required',
-          'question' => 'required',
-          'a' => 'required',
-          'b' => 'required',
-          'c' => 'required',
-          'd' => 'required',
-          'answer' => 'required',
-          'question_img' => 'image'
-        ]);
+        // $request->validate([
+        //   'topic_id' => 'required',
+        //   'question' => 'required',
+        //   'a' => 'required',
+        //   'b' => 'required',
+        //   'c' => 'required',
+        //   'd' => 'required',
+        //   'answer' => 'required',
+        //   'question_img' => 'image'
+        // ]);
 
         $input = $request->all();
 
@@ -98,6 +99,16 @@ class QuestionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function subjective_question_show($id)
+    {
+        file_put_contents('test.txt',$id);
+        $topic = Topic::findOrFail($id);
+        $questions = Question::where('topic_id', $topic->id)->get();
+        return view('admin.questions.show_subjective',compact('topic', 'questions'));
+    }
+
+    
     public function show($id)
     {
         $topic = Topic::findOrFail($id);
